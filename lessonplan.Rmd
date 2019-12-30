@@ -53,12 +53,12 @@ At the end of this lesson, learners will be able to:
 |1a          | 9:00 to 9:30   | Welcome and warm-up  | &#8212; |
 |1b <br> 1c  | 9:30 to 10:30  | Why code? Why R? <br> Introduction to R and RStudio | &#8212; |
 |&#8212:     | 10:30 to 10:45 | _break_ | &#8212; |
-|2a <br> 2b  | 10:45 to 12:00 | The data science process <br> Importing data <br> Data manipulation | &#8212; |
+|2a <br> 2b  | 10:45 to 11:45 | Importing data <br> Data manipulation | &#8212; |
+|3a          | 11:45 to 12:00 | Installing R on your own computer | &#8212; |
 |&#8212;     | 12:00 to 1:00  | _lunch_ | &#8212; |
-|3a          | 1:00 to 1:30   | Installing R on your own computer | &#8212; |
-|3b <br> 3c  | 1:30 to 2:45   | Data manipulation (continued) <br> Exporting data | &#8212; |
-|&#8212;     | 2:45 to 3:00   | _break_ | &#8212; |
-|4a          | 3:00 to 4:30   | Communicating: Plotting & Reporting | &#8212; |
+|3b <br> 3c  | 1:00 to 2:30   | Data manipulation (continued) <br> Exporting data | &#8212; |
+|&#8212;     | 2:30 to 2:45   | _break_ | &#8212; |
+|4a          | 2:45 to 4:30   | Communicating: Plotting & Reporting | &#8212; |
 |4b          | 4:30 to 5:00   | Wrap up | &#8212; |
 
 
@@ -101,26 +101,27 @@ Time allocation: 15 minutes (10:30 to 10:45)
 
 ***
 
-### 2a. The Data Science Process
-
-Format: instructor, lecture w/slides
-
-Time allocation: 15 minutes (10:45 to 11:00)
-
-
-### 2b. Importing data
-
-Format: instructor, lecture w/slides
-
-Time allocation: 15 minutes (10:45 to 11:00)
-
-
-
-### 2c. Data Wrangling
+### 2a. Importing data
 
 Format: learner (instructor guided)
 
-Time allocation: 60 minutes (11:00 to 12:00)
+Time allocation: 15 minutes (10:45 to 11:00)
+
+
+### 2b. Data manipulation
+
+Format: learner (instructor guided)
+
+Time allocation: 45 minutes (11:00 to 11:45)
+
+## 2c. Installing R & RStudio on your own computer
+
+Format: learner (instructor guided)
+
+Time allocation: 15 minutes (11:45 to 12:00)
+
+
+
 
 ***
 
@@ -130,7 +131,7 @@ Time allocation: 60 minutes (12:00 to 1:00)
 
 ***
 
-### 3. Data Wrangling (part 2)
+### 3a. Data Wrangling (part 2)
 
 Format: instructor, lecture w/slides
 
@@ -139,21 +140,37 @@ Time allocation: 15 minutes (1:00 to 1:15)
 
 Format: learner (instructor guided)
 
-Time allocation: 60 minutes (1:15 to 2:15)
+Time allocation: 45 minutes (1:15 to 2:00)
 
+
+
+### 3b. Modeling
+
+Format: learner (instructor guided)
+
+Time allocation: 30 minutes (2:00 to 2:30)
+
+
+### 3c. Exporting data
+
+Format: learner (instructor guided)
+
+Time allocation: 15 minutes (2:30 to 2:45)
 
 ***
 
 ## BREAK
 
-Time allocation: 15 minutes (2:15 to 2:30)
+Time allocation: 15 minutes (2:45 to 3:00)
 
 
 ***
 
-## 4b. Installing R & RStudio on your own computer
+## 4a. Communicating: plotting and reporting
 
-Time allocation: 15 minutes (3:15 to 3:30)
+Format: learner (instructor guided)
+
+Time allocation: 90 minutes (3:00 to 4:30)
 
 
 
