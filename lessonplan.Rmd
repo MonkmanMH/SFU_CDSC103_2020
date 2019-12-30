@@ -38,9 +38,9 @@ At the end of this lesson, learners will be able to:
 
 2. Import data from a variety of sources, and write output files;
 
-3. Understand and apply data manipulation methods; 
+3. Understand and apply data manipulation and modeling methods; 
 
-4. Build and customize complex plots from data in a data frame.
+4. Build and customize complex plots and reproducible reports from data in a data frame.
 
 
 
@@ -52,32 +52,24 @@ At the end of this lesson, learners will be able to:
 |---         |:---            |:---     |:---:  |
 |1a          | 9:00 to 9:30   | Welcome and warm-up  | &#8212; |
 |1b <br> 1c  | 9:30 to 10:30  | Why code? Why R? <br> Introduction to R and RStudio | &#8212; |
-|&#8212:     | 10:30 to 10:45 | _break_ | &#8212; |
+|&#8212;     | 10:30 to 10:45 | _break_ | &#8212; |
 |2a <br> 2b  | 10:45 to 11:45 | Importing data <br> Data manipulation | &#8212; |
-|3a          | 11:45 to 12:00 | Installing R on your own computer | &#8212; |
+|2c          | 11:45 to 12:00 | Installing R on your own computer | &#8212; |
 |&#8212;     | 12:00 to 1:00  | _lunch_ | &#8212; |
-|3b <br> 3c  | 1:00 to 2:30   | Data manipulation (continued) <br> Exporting data | &#8212; |
-|&#8212;     | 2:30 to 2:45   | _break_ | &#8212; |
-|4a          | 2:45 to 4:30   | Communicating: Plotting & Reporting | &#8212; |
+|3a <br> 3b  | 1:00 to 2:30   | Data manipulation (continued) <br> Modeling | &#8212; |
+|3c          | 2:30 to 2:45   | Exporting data | &#8212; |
+|&#8212;     | 2:45 to 3:00   | _break_ | &#8212; |
+|4a          | 3:00 to 4:30   | Communicating: Plotting & Reporting | &#8212; |
 |4b          | 4:30 to 5:00   | Wrap up | &#8212; |
 
 
 
-### 1a. Welcome!
+### 1a. Welcome and warm-up
 
 Format: participation and instructor lecture w/ slides
 
 Time allocation: 30 minutes (9:00 to 9:30)
 
-
-#### Welcome!
-
-* Introducing the instructor
-
-* Value of community 
-
-  - Icebreaker
-  
 
 
 ### 1b. Why Code? Why R?
@@ -114,7 +106,7 @@ Format: learner (instructor guided)
 
 Time allocation: 45 minutes (11:00 to 11:45)
 
-## 2c. Installing R & RStudio on your own computer
+### 2c. Installing R & RStudio on your own computer
 
 Format: learner (instructor guided)
 
@@ -131,7 +123,7 @@ Time allocation: 60 minutes (12:00 to 1:00)
 
 ***
 
-### 3a. Data Wrangling (part 2)
+### 3a. Data manipulation (part 2)
 
 Format: instructor, lecture w/slides
 
@@ -174,7 +166,7 @@ Time allocation: 90 minutes (3:00 to 4:30)
 
 
 
-## 4c. Wrap up
+## 4b. Wrap up
 
 Time allocation: 30 minutes (4:30 to 5:00)
 
