@@ -6,13 +6,13 @@ It is adapted from original work by:
 - Data Carpentries; https://datacarpentry.org/r-socialsci/ 
 -->
 
----
-title: "CDSC103: Lesson Plan"
-subtitle: "2020-01-11"
-author: "Martin Monkman"
-date: "latest revision: `r Sys.Date()`"
-#description: "The course outline for Developing a Data Analysis Toolbox, SFU CDSC103"
----
+# CDSC103: Lesson Plan"
+
+### _2020-01-11_
+
+latest revision: 2019-12-31
+
+The course outline for Developing a Data Analysis Toolbox, SFU CDSC103
 
 
 ***
