@@ -11,7 +11,7 @@ title: "CDSC103: Lesson Plan"
 subtitle: "2020-01-11"
 author: "Martin Monkman"
 date: "latest revision: `r Sys.Date()`"
-output: html_document
+output: github_document
 #description: "The course outline for Developing a Data Analysis Toolbox, SFU CDSC103"
 ---
 
