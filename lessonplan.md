@@ -6,11 +6,11 @@ It is adapted from original work by:
 - Data Carpentries; https://datacarpentry.org/r-socialsci/ 
 -->
 
-# CDSC103: Lesson Plan"
+# CDSC103: Lesson Plan
 
 ### _2020-01-11_
 
-latest revision: 2019-12-31
+latest revision: 2020-01-01
 
 The course outline for Developing a Data Analysis Toolbox, SFU CDSC103
 
@@ -171,47 +171,65 @@ Time allocation: 30 minutes (4:30 to 5:00)
 
 ***
 
-## Readings & Reference Materials
+## Packages: resources
 
-### Packages
-
-#### R Markdown
+### R Markdown
 
 [R Markdown reference at RStudio](https://rmarkdown.rstudio.com/docs/)
 
 [R Markdown cheat sheet](https://github.com/rstudio/cheatsheets/raw/master/rmarkdown-2.0.pdf) (PDF file)
 
 
-#### The tidyverse:
+### The tidyverse:
 
 [tidyverse.org](https://www.tidyverse.org/)
 
 
 #### {ggplot2} .
 
-[{ggplot2} reference at tidyverse.org](https://ggplot2.tidyverse.org/)
+[{ggplot2} reference at tidyverse.org](https://ggplot2.tidyverse.org/) -- "a system for declaratively creating graphics, based on _The Grammar of Graphics_"
 
+[Data Visualization with {ggplot2} cheat sheet](https://rstudio.com/wp-content/uploads/2015/03/ggplot2-cheatsheet.pdf) (PDF file)
 
 
 #### {dplyr} .
 
-[{dplyr} reference at tidyverse.org](https://dplyr.tidyverse.org/)
+[{dplyr} reference at tidyverse.org](https://dplyr.tidyverse.org/) -- "a grammar of data manipulation"
 
 [Data Transformation Cheat Sheet](https://github.com/rstudio/cheatsheets/raw/master/data-transformation.pdf) (PDF file)
 
+[Data wrangling with {dplyr} and {tidyr} cheat sheet](https://rstudio.com/wp-content/uploads/2015/02/data-wrangling-cheatsheet.pdf) -- note: has not yet been updated to the latest {tidyr} syntax (i.e. no `pivot_longer()` and `pivot_wider()`)
 
 
 #### {readr} .
 
-[{readr} reference at tidyverse.org](https://readr.tidyverse.org/)
+[{readr} reference at tidyverse.org](https://readr.tidyverse.org/) -- "a fast and friendly way to read rectangular data (like csv, tsv, and fwf)"
+
+
+
+#### {readxl} .
+
+[{readxl} reference at tidyverse.org](https://readxl.tidyverse.org/) -- "makes it easy to get data out of Excel and into R"
+
 
 
 #### {tidyr} .
 
-[{tidyr} reference at tidyverse.org](https://tidyr.tidyverse.org/)
+[{tidyr} reference at tidyverse.org](https://tidyr.tidyverse.org/) -- "help you create tidy data"
+
+[Data wrangling with {dplyr} and {tidyr} cheat sheet](https://rstudio.com/wp-content/uploads/2015/02/data-wrangling-cheatsheet.pdf) -- note: has not yet been updated to the latest {tidyr} syntax (i.e. no `pivot_longer()` and `pivot_wider()`)
 
 
+### Utilities
 
+#### {janitor}
+
+[{janitor} reference](http://sfirke.github.io/janitor/) -- "simple functions for examining and cleaning dirty data"
+
+
+***
+
+## Readings & Reference Materials
 
 
 ### From _R4DS_
