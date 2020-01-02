@@ -1,0 +1,102 @@
+---
+title: "Census data - 1"
+output: html_notebook
+---
+
+
+```{r setup}
+# tidyverse
+library(tidyverse)
+
+#
+# utilities
+library(here)
+library(janitor)
+
+```
+
+
+# Census data
+
+Statistics Canada
+
+[Data products, 2016 Census](https://www12.statcan.gc.ca/census-recensement/2016/dp-pd/index-eng.cfm) -- high-level overview of what's available
+
+
+Source:  https://www12.statcan.gc.ca/census-recensement/2016/dp-pd/dt-td/Index-eng.cfm 
+
+
+
+
+## Income by census tract
+
+
+[Household Income Statistics (3) and Household Type Including Census Family Structure (11) for Private Households of Census Metropolitan Areas, Tracted Census Agglomerations and Census Tracts, 2016 Census - 100% Data](https://www12.statcan.gc.ca/census-recensement/2016/dp-pd/dt-td/Rp-eng.cfm?TABID=4&LANG=E&A=R&APATH=3&DETAIL=0&DIM=0&FL=I&FREE=0&GC=001&GL=-1&GID=1241570&GK=10&GRP=1&O=D&PID=110193&PRID=10&PTYPE=109445&S=0&SHOWALL=0&SUB=999&Temporal=2016&THEME=119&VID=0&VNAMEE=&VNAMEF=&D1=0&D2=0&D3=0&D4=0&D5=0&D6=0)
+
+
+```{r}
+
+df_98_400_X2016100 <- read_csv(here("data", "98-400-X2016100_ENG_CSV", "98-400-X2016100_English_CSV_data.csv"))
+
+df_98_400_X2016100
+
+```
+
+
+First: filter by GEO_LEVEL. In this case, "1" represents the CMAs and tracted CAs
+
+```{r}
+
+df_98_400_X2016100 %>% 
+  filter(GEO_LEVEL == 1)
+
+```
+
+To assign it to another data object that we can refer to later, us the assignment arrow
+
+```{r}
+
+df_CMA <- df_98_400_X2016100 %>% 
+  filter(GEO_LEVEL == 1)
+
+df_CMA
+
+```
+
+## TANGENT: {janitor}
+
+Often we are working with data that is stored with a lot of additional bumpf, and with variable names that are a challenge to work with.
+
+In this case, the name of the "household type" variable has a lot of extra information. We can work with what's there, by putting back ticks around the name. In this example, we can filter our new data frame to just show the total number of households in each region as follows:
+
+```{r}
+
+df_CMA %>%
+  filter(`DIM: Household type including census family structure (11)` == "Total - Household type including census family structure")
+
+```
+
+
+The {janitor} package gives us some tools to quickly clean up the variable names, among other useful tools. Here, we use the `clean_names()` function to put everything into lowercase and replace spaces with underscores.
+
+```{r}
+
+clean_names(df_CMA)
+
+```
+
+But it might be better just to simplify the names themselves. We can do this using the `rename()` function in {dplyr}:
+
+
+* See [Select/rename variables by name]](https://dplyr.tidyverse.org/reference/select.html) at the {dplyr} reference pages
+
+```{r}
+
+df_CMA %>%
+  rename("household_type" = `DIM: Household type including census family structure (11)`)
+  
+
+```
+
+
+
