@@ -23,6 +23,8 @@ library(lubridate)
 # notes
 # https://github.com/yihui/xaringan/wiki/Export-Slides-to-PDF
 
+# pagedown::chrome_print(here::here("slides", "slides_1b_why.rmdl"))
+
 ```
 
 
@@ -419,7 +421,7 @@ class: inverse
 
 Accuracy matters
 
-![Hadley Wickham tweet](../img/Hadley_5minutes_2019-10-27.jpg)
+![Hadley Wickham tweet](../img/Hadley_5minutes_2019-10-27.JPG)
 
 ---
 class: inverse
@@ -427,7 +429,7 @@ class: inverse
 
 And spelling matters
 
-![Kara Woo tweet](../img/Kara_5minutes_2019-10-27.jpg)
+![Kara Woo tweet](../img/Kara_5minutes_2019-10-27.JPG)
 
 ...and in R, so does case
 
