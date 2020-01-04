@@ -34,6 +34,16 @@ class: inverse
 
 ---
 
+# The Data Science Process
+
+![the data science process](../img/data-science.png)
+
+- Wickham and Grolemund, _R4DS_
+
+
+
+---
+
 ## Meta outcome 1: using **R**
 
 Programming environment designed for statistical analysis / data science 
@@ -97,7 +107,7 @@ Hadley Wickham & Garrett Grolemund, _R for Data Science_
 
 ## Supplementary resources and readings
 
-- in the lesson plan
+- in the github repo
 
 
 
@@ -153,6 +163,26 @@ class: inverse
 
 ---
 
+## Opinionated Analysis Development
+
+* Reproducible and Auditable
+
+* Accurate
+
+* Collaborative
+
+  - Hilary Parker
+
+???
+
+Hilary Parker, [“Opinionated Analysis Development”](https://peerj.com/preprints/3210/), 2017-08-31
+
+
+
+
+
+---
+
 ## Reproducible workflow
 
 >Saves time,
@@ -166,33 +196,36 @@ class: inverse
 
 David Smith, 2017-04-21, [Reproducible Data Science with R](https://blog.revolutionanalytics.com/2017/04/reproducible-data-science-with-r.html)
 
-Hilary Parker, [“Opinionated Analysis Development”](https://peerj.com/preprints/3210/), 2017-08-31
-
-* Reproducible and Auditable
-
-* Accurate
-
-* Collaborative
-
-
 
 
 ---
 
-# Workflow and functionality: 1
+## Workflow and functionality: 1
 
 ![survey workflow 1](../img/survey_workflow_1.png)
 
 ---
 
-# Workflow and functionality: 2
+## Workflow and functionality: 2
 
 ![survey workflow 1](../img/survey_workflow_2.png)
+
+
+---
+
+## Accurate
+
+* minimize actions that have potential for error
+
+* error tracing
+
+* robust algorithms
+
 
 ---
 
 
-# A collaborative community
+## A collaborative community
 
 The R user community:
 
@@ -214,64 +247,6 @@ Reading:
 
 Julia Stewart Lowndes, 2019-12-10, [Open Software Means Kinder Science](https://blogs.scientificamerican.com/observations/open-software-means-kinder-science/), _Scientific American_ blog
 
----
-
-# The Data Science Process
-
-![the data science process](../img/data-science.png)
-
-- Wickham and Grolemund, _R4DS_
-
-
----
-
-## R
-
-![R logo](../img/R.jpg)
-
----
-
-## RStudio
-
-![R logo](../img/RStudio_400.png)
-
----
-
-## packages
-
-![R logo](../img/tidyverse_400.png)
-
-
----
-
-Base R is like the engine and frame of a car & basic controls like the pedals and steering wheel
-
-
-![VW Beetle frame](../img/VW_ad_1_crop.png)
-
----
-
-...the packages are the other things that enhance the car's functions
-
-* the body, windshield, headlights, A/C, sound system, etc
-
-![VW Beetle transparent](../img/vwlooking.jpg)
-
-
-
----
-
-...and RStudio is the dashboard and controls
-
-![VW Beetle dashboard](../img/VW_dashboard.jpg)
-
-
----
-
-(more like this)
-
-![VW Beetle dashboard, tan](../img/VW_dashboard_2019.jpg)
-
 
 
 ---
@@ -285,6 +260,13 @@ Base R
 
 * built-in analytic functions
 
+
+---
+
+Base R is like the engine and frame of a car & basic controls like the pedals and steering wheel
+
+
+![VW Beetle frame](../img/VW_ad_1_crop.png)
 
 
 ---
@@ -302,21 +284,11 @@ Packages extend the functionality of R
 
 ---
 
-![RStudio logo](../img/RStudio_400.png)
+...the packages are the other things that enhance the car's functions
 
+* the body, windshield, headlights, A/C, sound system, etc
 
----
-
-
-## RStudio
-
-IDE (interactive development environment)
-
-* also the company that developed and supports the IDE
-
-* RStudio is also active creating and supporting packages, including...
-
-
+![VW Beetle transparent](../img/vwlooking.jpg)
 
 
 ---
@@ -343,17 +315,19 @@ The [{tidyverse} site](https://tidyverse.org): tidyverse.org
 
 ---
 
-## An analogy...
+![RStudio logo](../img/RStudio_400.png)
 
-Base R is like the engine and frame of a car
-
-![VW Beetle frame](../img/VW_ad_1_crop.png)
 
 ---
 
-..the packages are the other things that enhance the car's functions
 
-![VW Beetle transparent](../img/vwlooking.jpg)
+## RStudio
+
+IDE (interactive development environment)
+
+* also the company that developed and supports the IDE
+
+* RStudio is also active creating and supporting packages, including...
 
 
 
@@ -368,7 +342,13 @@ Base R is like the engine and frame of a car
 
 (more like this)
 
-![VW Beetle dashboard](../img/VW_dashboard_2019.jpg)
+![VW Beetle dashboard, tan](../img/VW_dashboard_2019.jpg)
+
+
+
+
+
+
 
 ---
 
@@ -500,14 +480,11 @@ If you haven't already, log in or sign up
 
 class: inverse
 
-# RStudio cloud
-
 ![RStudio panes](../img/RStudio_panes.png)
 
 
 
 ---
-class: inverse
 
 # Console
 
@@ -523,13 +500,13 @@ What happened?
 
 
 ---
-class: inverse
 
-First create a new R script file
+First create a new R notebook file
+
+* File / New File > / R Notebook
 
 
 ---
-class: inverse
 
 # The power of named variables 
 
@@ -541,7 +518,6 @@ class: inverse
 
 
 ---
-class: inverse
 
 ## assign the object "x" with the value 10
 
@@ -553,7 +529,6 @@ class: inverse
 
 
 ---
-class: inverse
 
 > How would you create a new object "y" with the value 4?
 
@@ -574,7 +549,6 @@ class: inverse
 
 
 ---
-class: inverse
 
 # How would you set `x` equal to 20?
 
@@ -589,7 +563,6 @@ class: inverse
 `x / y`
 
 ---
-class: inverse
 
 `t <- "If it's inside quotation marks, it's a character"`
 
@@ -612,7 +585,6 @@ Now print the object `t`
 
 
 ---
-class: inverse
 
 ## Vector -- a series of values
 
@@ -621,7 +593,6 @@ class: inverse
 `x <- seq(1, 10)`
 
 ---
-class: inverse
 
 # `c` for concatenate
 
@@ -632,7 +603,6 @@ y <- c("British Columbia", "Alberta")
 
 
 ---
-class: inverse
 
 # Functions
 
@@ -647,7 +617,6 @@ class: inverse
 ![R Markdown hex](../img/rmarkdown_400.png)
 
 ---
-class: inverse
 
 ### R Markdown
 
@@ -677,9 +646,8 @@ class: inverse
 Used for reports and academic articles, books, blogs and websites
 
 ---
-class: inverse
 
-# Markdown
+## Markdown
 
 A simplified formatting markup language with plain text syntax
 
@@ -687,9 +655,8 @@ _Go to your web browser and open [dillinger.io](https://dillinger.io/)_
 
 
 ---
-class: inverse
 
-# R Markdown
+## R Markdown
 
 Combines text (in Markdown) with R code
 
@@ -713,8 +680,6 @@ Image source: https://github.com/rstudio/hex-stickers (for all tidyverse hex ima
 
 ---
 
-class: inverse
-
 # {tidyverse} -
 
 "The tidyverse is an opinionated collection of R packages designed for data science. All packages share an underlying design philosophy, grammar, and data structures."
@@ -722,7 +687,6 @@ class: inverse
 The [{tidyverse} site](https://tidyverse.org): tidyverse.org
 
 ---
-class: inverse
 
 Two tidyerse data transformation packages we will be using today:
 
@@ -732,7 +696,6 @@ Two tidyerse data transformation packages we will be using today:
 
 
 ---
-class: inverse
 
 ## Loading a package
 
@@ -742,7 +705,7 @@ There are two steps to getting a package ready to use:
 
 `install.packages()`
 
-Our RStudio environment has all the packages you'll need!
+You don't need to do this -- our RStudio environment has all the packages you'll need!
 
 2. load
 
@@ -751,7 +714,6 @@ Our RStudio environment has all the packages you'll need!
 
 
 ---
-class: inverse
 
 
 # Quick Detour
@@ -767,7 +729,6 @@ Or, once a package is loaded, it is accessible through the Help pane (bottom rig
 
 
 ---
-class: inverse
 
 # Quick Detour
 ## other sources of help

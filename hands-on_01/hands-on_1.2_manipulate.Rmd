@@ -1,0 +1,129 @@
+---
+title: "Transform Data 1: manipulate cases"
+output: html_notebook
+---
+
+<!-- This file by Charlotte Wickham (with some modifications by Martin Monkman) is licensed under a Creative Commons Attribution 4.0 International License, adapted from the orignal work at https://github.com/rstudio/master-the-tidyverse by RStudio. -->
+
+```{r setup}
+library(tidyverse)
+library(gapminder)
+
+```
+
+## gapminder
+
+```{r}
+gapminder
+```
+
+## Your Turn 1: filter() rows
+
+See if you can use the logical operators to manipulate our code below to show:
+
+The data for Canada
+
+```{r}
+filter(gapminder, country == "New Zealand")
+```
+
+All data for countries in Oceania
+
+```{r}
+filter(gapminder, country == "New Zealand")
+```
+
+Rows where the life expectancy is greater than 82
+```{r}
+filter(gapminder, country == "New Zealand")
+```
+
+
+## Your Turn 2: multiple criteria
+
+Use Boolean operators to alter the code below to return only the rows that contain:
+
+* United States before 1970
+
+```{r}
+
+gapminder %>%
+  filter(country == "New Zealand", 
+         year > 2000)
+
+```
+
+*  Countries where life expectancy in 2007 is below 50 or over 75
+
+```{r}
+
+
+```
+
+
+
+* Create a list object and return records for any of "New Zealand", "Canada" or "United States"
+
+
+```{r}
+
+```
+
+* Return records for all continents except Europe
+
+
+```{r}
+
+```
+
+## Your Turn 3: sorting
+
+Find the records with the smallest population.
+```{r}
+
+```
+
+Find the records with the largest GDP per capita.
+```{r}
+
+```
+
+
+## Your Turn 4: creating new variables
+
+Calculate a new variable with total GDP
+
+```{r, error = TRUE}
+
+
+
+```
+
+Create a summary table with the population and GDP by continent for the year 2007  
+
+```{r}
+
+```
+
+## Your Turn 5
+
+Alter the code to add a `prev_lifeExp` column that contains the life expectancy from the previous record.
+
+(Hint: use "Transformation" cheatsheet, you want to offset elements by one)
+
+Extra challenge: Why isn't this quite the 'life expectency five years ago'?
+
+```{r}
+gapminder %>%
+  mutate()
+```
+
+
+***
+
+# Take aways
+
+* Extract cases with `filter()`  
+* Filter using a list with `%in%`
+* Make new variables, with `mutate()`  
+* Connect operations with `%>%`  
