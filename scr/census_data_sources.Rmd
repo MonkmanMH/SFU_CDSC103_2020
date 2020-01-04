@@ -36,28 +36,33 @@ Source:  https://www12.statcan.gc.ca/census-recensement/2016/dp-pd/dt-td/Index-e
 
 ```{r}
 
-df_98_400_X2016100 <- read_csv(here("data", "98-400-X2016100_ENG_CSV", "98-400-X2016100_English_CSV_data.csv"))
+df_98_400_X2016100 <- read_csv(here("data", "98-400-X2016100_ENG_CSV", "98-400-X2016100_English_CSV_data.csv"),
+                               na = "x")
+
+```
+
+
+The {janitor} package gives us some tools to quickly clean up the variable names, among other useful tools. Here, we use the `clean_names()` function to put everything into lowercase and replace spaces with underscores.
+
+
+```{r}
+
+df_98_400_X2016100 <- clean_names(df_98_400_X2016100)
+
 
 df_98_400_X2016100
 
 ```
 
 
-First: filter by GEO_LEVEL. In this case, "1" represents the CMAs and tracted CAs
-
-```{r}
-
-df_98_400_X2016100 %>% 
-  filter(GEO_LEVEL == 1)
-
-```
+First: filter by geo_level. In this case, "1" represents the CMAs and tracted CAs
 
 To assign it to another data object that we can refer to later, us the assignment arrow
 
 ```{r}
 
 df_CMA <- df_98_400_X2016100 %>% 
-  filter(GEO_LEVEL == 1)
+  filter(geo_level == 1)
 
 df_CMA
 
@@ -65,25 +70,15 @@ df_CMA
 
 ## TANGENT: {janitor}
 
-Often we are working with data that is stored with a lot of additional bumpf, and with variable names that are a challenge to work with.
-
 In this case, the name of the "household type" variable has a lot of extra information. We can work with what's there, by putting back ticks around the name. In this example, we can filter our new data frame to just show the total number of households in each region as follows:
 
 ```{r}
 
 df_CMA %>%
-  filter(`DIM: Household type including census family structure (11)` == "Total - Household type including census family structure")
+  filter(`dim_household_type_including_census_family_structure_11` == "Total - Household type including census family structure")
 
 ```
 
-
-The {janitor} package gives us some tools to quickly clean up the variable names, among other useful tools. Here, we use the `clean_names()` function to put everything into lowercase and replace spaces with underscores.
-
-```{r}
-
-clean_names(df_CMA)
-
-```
 
 But it might be better just to simplify the names themselves. We can do this using the `rename()` function in {dplyr}:
 
@@ -92,8 +87,26 @@ But it might be better just to simplify the names themselves. We can do this usi
 
 ```{r}
 
-df_CMA %>%
-  rename("household_type" = `DIM: Household type including census family structure (11)`)
+df_CMA_after_tax <- df_CMA %>%
+  rename("household_type" = dim_household_type_including_census_family_structure_11,
+         "median_after_tax" = dim_household_income_statistics_3_member_id_3_median_after_tax_income_of_households) %>% 
+  filter(household_type == "Total - Household type including census family structure") %>% 
+  select(geo_name, median_after_tax) %>% 
+  arrange(desc(median_after_tax))
+
+df_CMA_after_tax  
+
+```
+
+
+```{r}
+
+ggplot(df_CMA_after_tax, aes(x = reorder(geo_name, median_after_tax), y = median_after_tax)) +
+  coord_flip() +
+  geom_point(size = 2) +
+  geom_segment(aes(xend = geo_name), yend = 0, colour = "grey50") +
+  ylim(0, 150000) +
+  theme_light()
   
 
 ```

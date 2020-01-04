@@ -23,6 +23,7 @@ library(readxl)
 
 # utilities
 library(here)
+library(janitor)
 
 ```
 
@@ -30,22 +31,50 @@ library(here)
 
 # 1. Reading a CSV file
 
+> Background reading: [11 Data import](https://r4ds.had.co.nz/data-import.html) in _R for Data Science_
+
+
+
 CSV files are very commonly used for storing flat files. They don't have any formatting--just the number or text in the cell.
 
 The package {readr} is designed to make importing these files simple.
 
 
-This example uses data provided by Statistics Canada, with household income by household type from the 2016 Census. See [](..\scr\census_data_sources.Rmd) for more information. 
+This example uses data provided by Statistics Canada, with household income by household type from the 2016 Census. In this case, the file contains all of the census tracts in the Census Metropolitan Areas (CMAs) and Census Agglomerations (CAs). See [](..\scr\census_data_sources.Rmd) for more information. 
 
 Run this chunk to create an object called `df_98_400_X2016100`, from a CSV file of the same name.
+
+> Sidebar: the {here} package is designed to work with R projects. It defines the root of your project directory, and then the `here()` function uses a string that is not dependent on your operating system (slash vs. backslash to separate folders!) This helps with collaboration, and makes your code more reproducible.
+
 
 ```{r}
 # example
 
 df_98_400_X2016100 <- read_csv(here("data", "98-400-X2016100_ENG_CSV", "98-400-X2016100_English_CSV_data.csv"))
 
-df_98_400_X2016100
+```
 
+Oh no...there are parsing failures.
+
+>1815 parsing failures.
+ row                                                                                                 col expected actual                                                                                           file
+1167 Dim: Household income statistics (3): Member ID: [1]: Total - Household income statistics (Note: 3) a double      x 'E:/github/SFU_CDSC103_2020/data/98-400-X2016100_ENG_CSV/98-400-X2016100_English_CSV_data.csv'
+1167 Dim: Household income statistics (3): Member ID: [2]: Median total income of households ($)         a double      x 
+
+
+This is something that you will sometimes see in Statistics Canada's files. Due to data quality and/or confidentiality, values are suppressed. In this case, the suppressed values are represented by an "x". This is problematic, because the column is of numeric values but the "x" is a character.
+
+{readr} provides a solution to this ... there's an argument in the `read_csv()` function to define characters as "NA" (how R represents missing values).
+
+## Your Turn 1.1
+
+Insert an R chunk and rerun the example above, but with argument `na = "x" ` added.
+
+```{r}
+# solution
+
+df_98_400_X2016100 <- read_csv(here("data", "98-400-X2016100_ENG_CSV", "98-400-X2016100_English_CSV_data.csv"),
+                               na = "x")
 
 ```
 
@@ -66,20 +95,6 @@ read_csv(here("data", "98-400-X2016100_ENG_CSV", "98-400-X2016100_English_CSV_da
 ```
 
 
-## Your Turn 1.1
-
-Insert an R chunk and rerun the example above, but with the `Member ID: Household type including census family structure (11)` variable set to factor.
-
-```{r}
-# solution
-# example
-read_csv(here("data", "98-400-X2016100_ENG_CSV", "98-400-X2016100_English_CSV_data.csv"),
-                               col_types =
-                                 cols(`Member ID: Household type including census family structure (11)` = col_factor()))
-
-
-```
-
 
 
 
@@ -94,7 +109,7 @@ The {readr} package allows a lot of control over how the file is read. Of partic
 
 ## Your Turn 1.2
 
-Read the first 5 rows of the "mtcars.csv" file.
+Read the first 5 rows of the "98-400-X2016100_English_CSV_data.csv" file.
 
 ```{r}
 # solution
@@ -114,7 +129,7 @@ STOP HERE ...
 
 If anything, Excel files are more common than CSV and other plain-text data files. They seem to multiply like coat hangers in the closet...
 
-And as we say in the article by Karl Broman & Kara Woo, ["Data Organization in Spreadsheets"](https://www.tandfonline.com/doi/full/10.1080/00031305.2017.1375989), they can encourage some ways of storing information that makes it hard for us to analyze. Excel files can also contain a wide variety of data format types. {readxl} tries to figure out what's going on, but like {readr}, it allows you to override some of those automatic decisions.
+And as pointed out in the article by Karl Broman & Kara Woo, ["Data Organization in Spreadsheets"](https://www.tandfonline.com/doi/full/10.1080/00031305.2017.1375989), they can encourage some ways of storing information that makes it hard for us to analyze. Excel files can also contain a wide variety of data format types. {readxl} tries to figure out what's going on, but like {readr}, it allows you to override some of those automatic decisions.
 
 
 ```{r}
