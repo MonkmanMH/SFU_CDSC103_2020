@@ -87,9 +87,11 @@ But it might be better just to simplify the names themselves. We can do this usi
 
 ```{r}
 
-df_CMA_after_tax <- df_CMA %>%
+df_CMA <- df_CMA %>%
   rename("household_type" = dim_household_type_including_census_family_structure_11,
-         "median_after_tax" = dim_household_income_statistics_3_member_id_3_median_after_tax_income_of_households) %>% 
+         "median_after_tax" = dim_household_income_statistics_3_member_id_3_median_after_tax_income_of_households)
+
+df_CMA_after_tax <- df_CMA %>%
   filter(household_type == "Total - Household type including census family structure") %>% 
   select(geo_name, median_after_tax) %>% 
   arrange(desc(median_after_tax))
@@ -112,4 +114,32 @@ ggplot(df_CMA_after_tax, aes(x = reorder(geo_name, median_after_tax), y = median
 ```
 
 
+## Census tract table
+
+In this case, we will start again with the master table and use `filter()` to select the cases that are _not_ the CMAs, that is, where `geo_level` is not equal to 1.
+
+
+```{r}
+
+df_CT <- df_98_400_X2016100 %>% 
+  filter(geo_level != 1) %>% 
+  rename("household_type" = dim_household_type_including_census_family_structure_11,
+         "median_after_tax" = dim_household_income_statistics_3_member_id_3_median_after_tax_income_of_households)
+
+
+df_CT
+
+```
+
+
+### Plot: histogram
+
+```{r}
+
+df_CT %>% 
+  filter(household_type == "Total - Household type including census family structure") %>% 
+  ggplot(aes(x = median_after_tax)) +
+    geom_histogram(binwidth = 10000)
+
+```
 
