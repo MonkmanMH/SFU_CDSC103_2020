@@ -42,6 +42,10 @@ df_98_400_X2016100 <- read_csv(here("data", "98-400-X2016100_ENG_CSV", "98-400-X
 ```
 
 
+### data cleaning: {janitor} .
+
+The data as provided is now functional, but we can make things easier to work with. As one example, the name of the "household type" variable has a lot of extra information. We can work with what's there, by putting back ticks around the name. Or we can rename the variables, both shortening them and removing spaces and other superfluous characters.
+
 The {janitor} package gives us some tools to quickly clean up the variable names, among other useful tools. Here, we use the `clean_names()` function to put everything into lowercase and replace spaces with underscores.
 
 
@@ -49,15 +53,41 @@ The {janitor} package gives us some tools to quickly clean up the variable names
 
 df_98_400_X2016100 <- clean_names(df_98_400_X2016100)
 
+df_98_400_X2016100
+```
+
+
+#### rename()
+
+We can also explicitly rename the variables in the data frame. We can do this using the `rename()` function in {dplyr}:
+
+
+* See [Select/rename variables by name]](https://dplyr.tidyverse.org/reference/select.html) at the {dplyr} reference pages
+
+
+
+```{r}
+
+df_98_400_X2016100 <- df_98_400_X2016100 %>%
+  rename("household_type" = dim_household_type_including_census_family_structure_11,
+         "household_type_cat" = member_id_household_type_including_census_family_structure_11,
+         "household_type_cat2" = notes_household_type_including_census_family_structure_11,
+         "households_total" = dim_household_income_statistics_3_member_id_1_total_household_income_statistics_note_3,
+         "inc_median_total" = dim_household_income_statistics_3_member_id_2_median_total_income_of_households,
+         "inc_median_after_tax" = dim_household_income_statistics_3_member_id_3_median_after_tax_income_of_households)
 
 df_98_400_X2016100
 
 ```
 
+Now the data frame is (somewhat) cleaner, we can continue our work.
 
-First: filter by geo_level. In this case, "1" represents the CMAs and tracted CAs
 
-To assign it to another data object that we can refer to later, us the assignment arrow
+## Filter by geography
+
+First: filter by `geo_level`. In this case, "1" represents the CMAs and tracted CAs
+
+To assign it to another data object that we can refer to later, use the assignment arrow `<-` (a keyboard shortcut is Alt+-).
 
 ```{r}
 
@@ -68,33 +98,14 @@ df_CMA
 
 ```
 
-## TANGENT: {janitor}
 
-In this case, the name of the "household type" variable has a lot of extra information. We can work with what's there, by putting back ticks around the name. In this example, we can filter our new data frame to just show the total number of households in each region as follows:
 
 ```{r}
-
-df_CMA %>%
-  filter(`dim_household_type_including_census_family_structure_11` == "Total - Household type including census family structure")
-
-```
-
-
-But it might be better just to simplify the names themselves. We can do this using the `rename()` function in {dplyr}:
-
-
-* See [Select/rename variables by name]](https://dplyr.tidyverse.org/reference/select.html) at the {dplyr} reference pages
-
-```{r}
-
-df_CMA <- df_CMA %>%
-  rename("household_type" = dim_household_type_including_census_family_structure_11,
-         "median_after_tax" = dim_household_income_statistics_3_member_id_3_median_after_tax_income_of_households)
 
 df_CMA_after_tax <- df_CMA %>%
   filter(household_type == "Total - Household type including census family structure") %>% 
-  select(geo_name, median_after_tax) %>% 
-  arrange(desc(median_after_tax))
+  select(geo_name, inc_median_after_tax) %>% 
+  arrange(desc(inc_median_after_tax))
 
 df_CMA_after_tax  
 
@@ -103,7 +114,7 @@ df_CMA_after_tax
 
 ```{r}
 
-ggplot(df_CMA_after_tax, aes(x = reorder(geo_name, median_after_tax), y = median_after_tax)) +
+ggplot(df_CMA_after_tax, aes(x = reorder(geo_name, inc_median_after_tax), y = inc_median_after_tax)) +
   coord_flip() +
   geom_point(size = 2) +
   geom_segment(aes(xend = geo_name), yend = 0, colour = "grey50") +
@@ -118,14 +129,13 @@ ggplot(df_CMA_after_tax, aes(x = reorder(geo_name, median_after_tax), y = median
 
 In this case, we will start again with the master table and use `filter()` to select the cases that are _not_ the CMAs, that is, where `geo_level` is not equal to 1.
 
+Note that because we've already done all of the variable name cleaning, we don't have to repeat that step.
+
 
 ```{r}
 
 df_CT <- df_98_400_X2016100 %>% 
-  filter(geo_level != 1) %>% 
-  rename("household_type" = dim_household_type_including_census_family_structure_11,
-         "median_after_tax" = dim_household_income_statistics_3_member_id_3_median_after_tax_income_of_households)
-
+  filter(geo_level != 1) 
 
 df_CT
 
@@ -138,8 +148,46 @@ df_CT
 
 df_CT %>% 
   filter(household_type == "Total - Household type including census family structure") %>% 
-  ggplot(aes(x = median_after_tax)) +
+  ggplot(aes(x = inc_median_after_tax)) +
     geom_histogram(binwidth = 10000)
 
 ```
+
+
+
+### Plot - density
+
+```{r}
+
+df_CT %>% 
+  filter(household_type == "Total - Household type including census family structure") %>% 
+  ggplot(aes(x = inc_median_after_tax)) +
+    geom_density()
+
+```
+
+
+
+Or overlay two density curves:
+
+```{r}
+
+df_CT %>% 
+  filter(household_type == "With children" | household_type == "With a female lone parent") %>% 
+  ggplot(aes(x = inc_median_after_tax, colour = household_type)) +
+    geom_density()
+
+```
+
+
+
+
+
+
+
+
+
+
+
+
 
