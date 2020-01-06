@@ -288,7 +288,7 @@ Jenny Bryan, ["How to name files"](https://speakerdeck.com/jennybc/how-to-name-f
 
 #### Tidy data
 
-Hadley Wickham. ["Tidy data"](https://vita.had.co.nz/papers/tidy-data.html), _The Journal of Statistical Software_, vol. 59, 2014.
+Hadley Wickham. ["Tidy data"](https://www.jstatsoft.org/article/view/v059i10), _The Journal of Statistical Software_, vol. 59, 2014.
 
 Karl Broman and Kara Woo, ["Data organization in spreadsheets"](https://doi.org/10.1080/00031305.2017.1375989), _The American Statistician_ 72 (1): 2–10.
 
