@@ -48,8 +48,7 @@ At the end of this lesson, learners will be able to:
 |1a          | 9:00 to 9:30   | Welcome and warm-up  | &#8212; |
 |1b <br> 1c  | 9:30 to 10:30  | Why code? Why R? <br> Introduction to R and RStudio | &#8212; |
 |&#8212;     | 10:30 to 10:45 | _break_ | &#8212; |
-|2a <br> 2b  | 10:45 to 11:45 | Importing data <br> Data manipulation | &#8212; |
-|2c          | 11:45 to 12:00 | Installing R on your own computer | &#8212; |
+|2a <br> 2b  | 10:45 to 12:00 | Data manipulation <br> Importing data  | &#8212; |
 |&#8212;     | 12:00 to 1:00  | _lunch_ | &#8212; |
 |3a <br> 3b  | 1:00 to 2:30   | Data manipulation (continued) <br> Modeling | &#8212; |
 |3c          | 2:30 to 2:45   | Exporting data | &#8212; |
@@ -88,24 +87,22 @@ Time allocation: 15 minutes (10:30 to 10:45)
 
 ***
 
-### 2a. Importing data
+### 2a. Data manipulation
 
 Format: learner (instructor guided)
 
-Time allocation: 15 minutes (10:45 to 11:00)
+Time allocation: 45 minutes (10:45 to 11:30)
 
 
-### 2b. Data manipulation
 
-Format: learner (instructor guided)
-
-Time allocation: 45 minutes (11:00 to 11:45)
-
-### 2c. Installing R & RStudio on your own computer
+### 2b. Importing data
 
 Format: learner (instructor guided)
 
-Time allocation: 15 minutes (11:45 to 12:00)
+Time allocation: 30 minutes (11:30 to 12:00)
+
+
+
 
 
 

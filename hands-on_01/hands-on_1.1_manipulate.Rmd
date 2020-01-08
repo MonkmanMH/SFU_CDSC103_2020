@@ -13,6 +13,8 @@ library(gapminder)
 
 This exercise introduces functions within the {dplyr} package. Note that the functions are (almost always) verbs, describing what the function does.
 
+## Functions
+
 |function |action |
 | :--- | ---: |
 | `filter()`    | *keep rows*|
@@ -20,11 +22,68 @@ This exercise introduces functions within the {dplyr} package. Note that the fun
 | `group_by()`  | *declare subsets in data*|
 | `select()`    | *keep variables (or drop them -var)*|
 | `rename()`    | *renaming variables*|
-| `summarize()` | *summarize the data, by groups if they have been declared*|
+| `summarize()` <br> or `summarise()` | *summarize the data, by groups if they have been declared*|
 | `tally()`     | *counting (by groups if group_by() applied)*|
 | `distinct()`  | *returns only rows that are unique*| 
 | `case_when()` | *is used for "recoding" variable, often used with mutate()*|
 
+
+## Arithmetic operators
+
+| Operator | Description |
+| : ----- | ---: |
+| + | *plus* |
+| - | *minus* |
+| \* | *multiplication*  |
+| / | *division* |
+| ^ | *exponential* |
+
+
+## Boolean operators
+
+Boolean operators are a special type of operator that return TRUE or FALSE.  
+
+| Operator | Description |
+| : ----- | ---: |
+| ==    | *equal, tests equality* |
+| !=    | *not equal, tests inequality* |
+| \>    | *greater than, tests greater than* (also >=) |
+| <     | *less than, tests less than* (also <=) |
+| %in%  | *contains, tests inclusion* |
+
+
+
+---
+
+
+Boolean operators can be combined with *and* or *or*.  
+
+| Operator | Description |
+| : ----- | ---: |
+| `&`     | *and, returns true if preceeding and following are both true, else false* |
+| &#124;  | *or, returns true if either preceeding and following are true, else false* |
+
+
+
+
+## Useful functions
+
+Some basic statistical functions  
+
+| Operator | Description |
+| : ----- | ---: |
+| `min()` <br> `max()` | *minimum and maximum values* |
+| `mean()` <br> `median()` <br> `mode()` | *measures of "average"* |
+| `summary()`  | *a list of measures of central tendency* |
+| `sum()`  | *adds up the values* |
+| `count()`  | *number of cases* |
+
+
+???
+
+Source: Gina Reynolds,[Tidyverse in Action](https://github.com/EvaMaeRey/tidyverse_in_action)
+
+Also see [R for Data Science, "Comparisions""](https://r4ds.had.co.nz/transform.html#comparisons) and ["Logical Operators"](https://r4ds.had.co.nz/transform.html#logical-operators)
 
 
 ## gapminder
@@ -131,6 +190,8 @@ Calculate a new variable with total GDP
 Create a summary table with the population and GDP by continent for the year 2007  
 
 ```{r}
+
+
 
 ```
 
