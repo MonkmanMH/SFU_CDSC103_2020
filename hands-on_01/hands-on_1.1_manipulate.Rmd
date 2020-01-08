@@ -11,7 +11,36 @@ library(gapminder)
 
 ```
 
+This exercise introduces functions within the {dplyr} package. Note that the functions are (almost always) verbs, describing what the function does.
+
+|function |action |
+| :--- | ---: |
+| `filter()`    | *keep rows*|
+| `mutate()`    | *create a new variable*|
+| `group_by()`  | *declare subsets in data*|
+| `select()`    | *keep variables (or drop them -var)*|
+| `rename()`    | *renaming variables*|
+| `summarize()` | *summarize the data, by groups if they have been declared*|
+| `tally()`     | *counting (by groups if group_by() applied)*|
+| `distinct()`  | *returns only rows that are unique*| 
+| `case_when()` | *is used for "recoding" variable, often used with mutate()*|
+
+
+
 ## gapminder
+
+For this exercise, we will use data from the {gapminder} package. For each of 142 countries, the package provides values for life expectancy, GDP per capita, and population, every five years, from 1952 to 2007.
+
+It's a slice of data found at [gapminder.org](gapminder.org), which was founded by Hans Rosling. If you haven't already seen his videos, I suggest:
+
+* [200 Years That Changed The World](https://www.gapminder.org/videos/200-years-that-changed-the-world/)
+
+* [TED talk "The Best Stats You've Ever Seen"](https://www.ted.com/talks/hans_rosling_the_best_stats_you_ve_ever_seen)
+
+and his book, [_Factfulness: Ten Reasons Why We're Wrong About the World--and Why Things Are Better Than You Think_](https://www.gapminder.org/factfulness-book/).
+
+
+First, we load the data. Since the package is already installed into our R environment, we can just do the following:
 
 ```{r}
 gapminder

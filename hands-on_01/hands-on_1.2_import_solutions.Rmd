@@ -133,7 +133,7 @@ And as pointed out in the article by Karl Broman & Kara Woo, ["Data Organization
 
 
 ```{r}
-deaths <- read_excel(readxl_example("deaths.xlsx"))
+deaths <- read_excel("data/deaths.xlsx")
 deaths
 ```
 
@@ -147,14 +147,14 @@ Read in the "deaths" file, but use the `range = ` option to specify when to star
 
 ```{r}
 # Example
-deaths <- read_excel(readxl_example("deaths.xlsx"), 
+deaths <- read_excel("data/deaths.xlsx", 
                      range = "A1:B3")
 
 deaths
 
 # solution
 deaths <- read_excel(
-    readxl_example("deaths.xlsx"),
+    "data/deaths.xlsx",
     range = "A5:F15"
   )
 
@@ -169,7 +169,7 @@ Use the `skip =` and `n_max =` options to achieve the same thing:
 
 # solution
 deaths <- read_excel(
-    readxl_example("deaths.xlsx"),
+    "data/deaths.xlsx",
     skip = 4,
     n_max = 10
   )
@@ -189,30 +189,26 @@ Note that if you don't specify the sheet, {readxl} will default to the first one
 The `excel_sheets()` function will tell you the name of the sheets in an Excel file.
 
 ```{r}
-datasets <- readxl_example("datasets.xlsx")
-
-excel_sheets(datasets)
-
-# Example
-read_excel(datasets, "iris")
+excel_sheets("data/deaths.xlsx")
 
 ```
 
-Now, read in the "mtcars" sheet using the name of the sheet.
+Now, read in the "other" sheet using the name of the sheet.
 
 
 ```{r}
 
 # Solution
-read_excel(datasets, "mtcars")
+read_excel("data/deaths.xlsx", "other")
+
 
 ```
 
-And finally, read in the "quakes" sheet, using the position.
+And finally, read in the "other" sheet, using the position.
 
 ```{r}
 # Solution
-read_excel(datasets, 4)
+read_excel("data/deaths.xlsx", 2)
 
 ```
 
