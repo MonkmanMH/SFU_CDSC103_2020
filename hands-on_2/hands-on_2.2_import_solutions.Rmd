@@ -50,7 +50,7 @@ Run this chunk to create an object called `df_98_400_X2016100`, from a CSV file 
 ```{r}
 # example
 
-df_98_400_X2016100 <- read_csv(here("data", "98-400-X2016100_ENG_CSV", "98-400-X2016100_English_CSV_data.csv"))
+df_98_400_X2016100 <- read_csv(here("data", "98-400-X2016100_English_CSV_data.csv"))
 
 ```
 

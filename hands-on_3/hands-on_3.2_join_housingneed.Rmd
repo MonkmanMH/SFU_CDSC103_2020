@@ -7,6 +7,7 @@ output: html_notebook
 ```{r setup}
 # tidyverse
 library(tidyverse)
+library(glue)
 
 # utilities
 library(here)
@@ -29,9 +30,51 @@ library(janitor)
 CT
 
 ```{r read_data}
+df_CT_housingneed <- read_csv(here("data", "CT_SR.csv"), 
+                              n_max = 5641)
 
-df_CT_SR <- read_csv(here("data", "CT_SR.csv"), n_max = 5641)
+df_CT_housingneed <- clean_names(df_CT_housingneed)
 
+```
+
+
+Note: use of 
+
+* `case_when()` : [A general vectorised if](https://dplyr.tidyverse.org/reference/case_when.html)
+
+* `str_length()`: [The length of a string](https://stringr.tidyverse.org/reference/str_length.html)
+
+```{r rename_vars}
+
+df_CT_housingneed <- df_CT_housingneed %>% 
+  rename(geo_code = "geographic_code_code_g_e9_ographique") %>% 
+  mutate(geo_code = as.character(geo_code)) 
+
+df_CT_housingneed <- df_CT_housingneed %>% 
+  mutate(geo_code_2 = case_when(
+    str_length(geo_code) == 5 ~ paste(df_CT_housingneed$geo_code, ".00", sep = ""),
+    str_length(geo_code) == 7 ~ paste(df_CT_housingneed$geo_code, ".00", sep = ""),
+    TRUE ~ as.character(geo_code)
+  ))
+
+
+
+
+```
+
+
+Now we have a list of all the Census Tracts in Canada.
+
+
+## Join
+
+To join it to the Prince George census tract table we made earlier, `df_ct_970`:
+
+```{r}
+
+df_ct_970 %>% 
+  filter(household_type_cat == 1) %>% 
+  left_join(df_CT_housingneed, by = c("geo_code_por" = "geo_code_2"))
 
 ```
 
