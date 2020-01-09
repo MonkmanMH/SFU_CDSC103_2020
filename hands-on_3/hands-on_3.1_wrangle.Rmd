@@ -1,0 +1,319 @@
+---
+title: "Census data - 1"
+output: html_notebook
+---
+
+
+```{r setup}
+# tidyverse
+library(tidyverse)
+
+#
+# utilities
+library(here)
+library(janitor)
+
+```
+
+
+# Census data
+
+Statistics Canada
+
+[Data products, 2016 Census](https://www12.statcan.gc.ca/census-recensement/2016/dp-pd/index-eng.cfm) -- high-level overview of what's available
+
+
+Source:  https://www12.statcan.gc.ca/census-recensement/2016/dp-pd/dt-td/Index-eng.cfm 
+
+
+[Dictionary, Census of Population, 2016: Census metropolitan area (CMA) and census agglomeration (CA)](https://www12.statcan.gc.ca/census-recensement/2016/ref/dict/geo009-eng.cfm)
+
+
+[Statistical Area Classification by Province and Territory - Variant of SGC 2016 -- British Columbia](https://www23.statcan.gc.ca/imdb/p3VD.pl?Function=getVD&TVD=317043&CVD=317045&CPV=59&CST=01012016&CLV=1&MLV=5)
+
+[Geography codes (including CMAs and CAs)](http://www.library.mcgill.ca/StatCan/geogfiles/classificationcodes/index.html)
+
+
+## Census reference maps
+
+[Census Tract Reference Maps, by Census Metropolitan Areas or Census Agglomerations](https://www12.statcan.gc.ca/census-recensement/2011/geo/map-carte/ref/cma_ca_ct-rmr_ar_sr/index-eng.cfm)
+
+
+
+## Income by census tract
+
+
+[Household Income Statistics (3) and Household Type Including Census Family Structure (11) for Private Households of Census Metropolitan Areas, Tracted Census Agglomerations and Census Tracts, 2016 Census - 100% Data](https://www12.statcan.gc.ca/census-recensement/2016/dp-pd/dt-td/Rp-eng.cfm?TABID=4&LANG=E&A=R&APATH=3&DETAIL=0&DIM=0&FL=I&FREE=0&GC=001&GL=-1&GID=1241570&GK=10&GRP=1&O=D&PID=110193&PRID=10&PTYPE=109445&S=0&SHOWALL=0&SUB=999&Temporal=2016&THEME=119&VID=0&VNAMEE=&VNAMEF=&D1=0&D2=0&D3=0&D4=0&D5=0&D6=0)
+
+
+```{r}
+
+df_98_400_X2016100 <- read_csv(here("data", "98-400-X2016100_ENG_CSV", "98-400-X2016100_English_CSV_data.csv"),
+                               na = "x")
+
+```
+
+
+> sidebar: {janitor} .
+>
+> The data as provided is now functional, but we can make things easier to work with. As one example, the name of the "household type" variable has a lot of extra information. We can work with what's there, by putting back ticks around the name. Or we can rename the variables, both shortening them and removing spaces and other superfluous characters.
+>
+>The {janitor} package gives us some tools to quickly clean up the variable names, among other useful tools. Here, we use the `clean_names()` function to put everything into lowercase and replace spaces with underscores.
+
+
+```{r}
+
+df_98_400_X2016100 <- clean_names(df_98_400_X2016100)
+
+df_98_400_X2016100
+```
+
+
+#### rename()
+
+We can also explicitly rename the variables in the data frame. We can do this using the `rename()` function in {dplyr}:
+
+
+* See [Select/rename variables by name]](https://dplyr.tidyverse.org/reference/select.html) at the {dplyr} reference pages
+
+
+
+```{r}
+
+df_98_400_X2016100 <- df_98_400_X2016100 %>%
+  rename("household_type" = dim_household_type_including_census_family_structure_11,
+         "household_type_cat" = member_id_household_type_including_census_family_structure_11,
+         "household_type_cat2" = notes_household_type_including_census_family_structure_11,
+         "households_total" = dim_household_income_statistics_3_member_id_1_total_household_income_statistics_note_3,
+         "inc_median_total" = dim_household_income_statistics_3_member_id_2_median_total_income_of_households,
+         "inc_median_after_tax" = dim_household_income_statistics_3_member_id_3_median_after_tax_income_of_households)
+
+df_98_400_X2016100
+
+```
+
+Now the data frame is (somewhat) cleaner, we can continue our work.
+
+
+## Filter by geography
+
+First: filter by `geo_level`. In this case, "1" represents the CMAs and tracted CAs
+
+To assign it to another data object that we can refer to later, use the assignment arrow `<-` (a keyboard shortcut is Alt+-).
+
+```{r}
+
+df_CMA <- df_98_400_X2016100 %>% 
+  filter(geo_level == 1)
+
+df_CMA
+
+```
+
+
+
+#### arrange()
+
+The `arrange()` function allows us to sort our data. If we want the largest at the top, we add the `desc()` parameter inside `arrange()` 
+
+```{r}
+
+df_CMA_after_tax <- df_CMA %>%
+  filter(household_type == "Total - Household type including census family structure") %>% 
+  select(geo_name, inc_median_after_tax) %>% 
+  arrange(desc(inc_median_after_tax))
+
+df_CMA_after_tax  
+
+```
+
+
+
+# Plot!
+
+We now have a data frame that we can plot.
+
+## {ggplot2} .
+
+The {ggplot2} package is the leading plotting package in R, and is part of the tidyverse. It is automatically loaded with the `library(tidyverse)` function.
+
+A basic `ggplot()` call looks like this:
+
+> `ggplot(<DATA>, mapping = aes(<MAPPINGS>)) + `
+>
+> `  <GEOM_FUNCTION>() `
+
+
+* `aes()` are the aesthetics--the visual properties of the objects
+
+  - e.g. size, shape, colour
+
+* `geom_()` specifies the geometry
+
+
+In this case, we want a bar or a Cleveland dot plot. Let's start with the bar:
+
+* the x variable is the city -- `geo_name`
+
+* we will plot income on the y axis -- `inc_median_after_tax`
+
+* the geometry is a bar--or is it? A "bar" makes the height proportional to the number of cases, a.k.a. a histogram. What we want is a _column_ that ends at our value--so `geom_col()`
+
+  - see [Bar charts at the ggplot2 reference page](https://ggplot2.tidyverse.org/reference/geom_bar.html)
+
+```{r}
+
+ggplot(df_CMA_after_tax, aes(x = geo_name, y = inc_median_after_tax)) +
+  geom_col()
+
+```
+
+
+Hmm. It worked, but given that there are so many cities, it's a mess.
+
+Perhaps if we reduced the number of cases...the top 10, perhaps. 
+
+* see [Select top (or bottom) n rows (by value)](https://dplyr.tidyverse.org/reference/top_n.html)
+
+```{r}
+
+df_CMA_after_tax_10 <- df_CMA_after_tax %>% 
+  top_n(10, inc_median_after_tax)
+
+
+```
+
+
+```{r}
+
+ggplot(df_CMA_after_tax_10, aes(x = geo_name, y = inc_median_after_tax)) +
+  geom_col()
+
+```
+
+
+---
+
+## add an additional aesthetic
+
+- `x` and `y` are the locations we want the points
+
+- use `color` to differentiate the sets
+
+`ggplot(anscombe_tidy, mapping = aes(x = x, y = y, colour = set)) + 
+  geom_point() `
+
+
+
+```{r echo=FALSE, message=FALSE}
+anscombe_tidy <- read_csv("anscombe_tidy.csv")
+# example
+ggplot(anscombe_tidy, aes(x = x, y = y, colour = set)) + 
+  geom_point() 
+```
+
+
+
+```{r}
+
+ggplot(df_CMA_after_tax, aes(x = reorder(geo_name, inc_median_after_tax), y = inc_median_after_tax)) +
+  coord_flip() +
+  geom_point(size = 2) +
+  geom_segment(aes(xend = geo_name), yend = 0, colour = "grey50") +
+  ylim(0, 150000) +
+  theme_light()
+  
+
+```
+
+
+## Census tract table
+
+In this case, we will start again with the master table and use `filter()` to select the cases that are _not_ the CMAs, that is, where `geo_level` is not equal to 1.
+
+Note that because we've already done all of the variable name cleaning, we don't have to repeat that step.
+
+
+```{r}
+
+df_CT <- df_98_400_X2016100 %>% 
+  filter(geo_level != 1) 
+
+df_CT
+
+```
+
+
+### Plot: histogram
+
+```{r}
+
+df_CT %>% 
+  filter(household_type == "Total - Household type including census family structure") %>% 
+  ggplot(aes(x = inc_median_after_tax)) +
+    geom_histogram(binwidth = 10000)
+
+```
+
+
+
+### Plot - density
+
+```{r}
+
+df_CT %>% 
+  filter(household_type == "Total - Household type including census family structure") %>% 
+  ggplot(aes(x = inc_median_after_tax)) +
+    geom_density()
+
+```
+
+
+
+Or overlay two density curves, comparing the median income, by census tract, of familes made up of couples with children to lone-parent families:
+
+```{r}
+
+df_CT %>% 
+  filter(household_type == "With children" | household_type == "One lone-parent census family without other persons in the household") %>% 
+  #
+  ggplot(aes(x = inc_median_after_tax, colour = household_type)) +
+  geom_density() 
+  
+
+```
+
+
+
+## Filter: all CTs from single CMA
+
+The comprehensive data table has all of the census tracts (CTs) for every CMA and CA in Canada. But the code that identifies the CTs isn't obvious.
+
+The first three characters in the `geo_code_por` variable is the code for the CMA or CA.
+
+```{r}
+
+df_98_400_X2016100 %>% 
+  mutate(CMA_CA_code = stringr::str_sub(geo_code_por, 1, 3)) %>%
+  filter(CMA_CA_code == 935 & geo_level == 2)
+
+```
+
+
+The census tract I live in: 9350104.00
+
+```{r}
+
+df_98_400_X2016100 %>% 
+  mutate(CMA_CA_code = stringr::str_sub(geo_code_por, 1, 3)) %>%
+  filter(geo_code_por == "9350104.00")
+
+```
+
+
+_Need CT to CSD concordance table_
+
+
+
+
+

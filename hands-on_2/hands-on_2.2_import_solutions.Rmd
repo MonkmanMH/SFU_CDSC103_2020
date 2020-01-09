@@ -44,7 +44,7 @@ This example uses data provided by Statistics Canada, with household income by h
 
 Run this chunk to create an object called `df_98_400_X2016100`, from a CSV file of the same name.
 
-> Sidebar: the {here} package is designed to work with R projects. It defines the root of your project directory, and then the `here()` function uses a string that is not dependent on your operating system (slash vs. backslash to separate folders!) This helps with collaboration, and makes your code more reproducible.
+> Sidebar: the {here} package is designed to work with R projects. It defines the root of your project directory, and then the `here()` function uses a string that is not dependent on your operating system (MacOS slash vs. Windows backslash to separate folders!) This helps with collaboration, and makes your code more reproducible.
 
 
 ```{r}
