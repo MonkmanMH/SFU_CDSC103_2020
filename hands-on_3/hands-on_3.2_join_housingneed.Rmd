@@ -1,0 +1,39 @@
+---
+title: "housing need"
+output: html_notebook
+---
+
+
+```{r setup}
+# tidyverse
+library(tidyverse)
+
+# utilities
+library(here)
+library(janitor)
+```
+
+
+## Data
+
+
+[Core housing need, 2016 Census](https://www12.statcan.gc.ca/census-recensement/2016/dp-pd/chn-biml/index-eng.cfm) -- Dictionary, Census of Population, 2016
+
+
+[Dictionary, Census of Population, 2016](https://www12.statcan.gc.ca/census-recensement/2016/ref/dict/households-menage037-eng.cfm)
+
+
+[Data: Census tracts (CT) for CMAs and tracted CAs (1,516 KB)](https://www12.statcan.gc.ca/census-recensement/2016/dp-pd/chn-biml/CT_SR.csv) [CSV file]
+
+
+CT
+
+```{r read_data}
+
+df_CT_SR <- read_csv(here("data", "CT_SR.csv"), n_max = 5641)
+
+
+```
+
+
+
