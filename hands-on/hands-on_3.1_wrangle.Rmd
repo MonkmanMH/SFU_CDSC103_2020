@@ -33,6 +33,8 @@ Source:  https://www12.statcan.gc.ca/census-recensement/2016/dp-pd/dt-td/Index-e
 
 [Geography codes (including CMAs and CAs)](http://www.library.mcgill.ca/StatCan/geogfiles/classificationcodes/index.html)
 
+* [archived Statistics Canada page](https://www12.statcan.gc.ca/census-recensement/2006/dp-pd/prof/92-597/includes/CTname-nomSR.cfm?Lang=E)
+
 
 ## Census reference maps
 
@@ -191,26 +193,6 @@ ggplot(df_CMA_after_tax_10, aes(x = geo_name, y = inc_median_after_tax)) +
 
 ```
 
-
----
-
-## add an additional aesthetic
-
-- `x` and `y` are the locations we want the points
-
-- use `color` to differentiate the sets
-
-`ggplot(anscombe_tidy, mapping = aes(x = x, y = y, colour = set)) + 
-  geom_point() `
-
-
-
-```{r echo=FALSE, message=FALSE}
-anscombe_tidy <- read_csv("anscombe_tidy.csv")
-# example
-ggplot(anscombe_tidy, aes(x = x, y = y, colour = set)) + 
-  geom_point() 
-```
 
 
 

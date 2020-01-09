@@ -158,21 +158,93 @@ ggplot(df_ct_970_housingneed, aes(x = inc_median_total, y = rate_of_core_housing
 
 
 
+---
+
+## add an additional aesthetic
+
+- `x` and `y` are the locations we want the points
+
+- use `color` to differentiate the sets
 
 
 
 
+## Repeat table for Prince George and Nanaimo
+
+We could use a filter where CMA_CA_code is equal to 970 (for Prince George) and 938 (for Nanaimo) ...
+
+```{r}
+
+df_ct_970938 <- df_98_400_X2016100 %>% 
+  mutate(CMA_CA_code = stringr::str_sub(geo_code_por, 1, 3)) %>%
+  filter((CMA_CA_code == 970 | CMA_CA_code == 938) & geo_level == 2)
+
+
+df_ct_970938
+
+```
+
+
+### Adding rows to an existing table
+
+First, we'll make a table with just Nanaimo:
+
+```{r}
+
+df_ct_938 <- df_98_400_X2016100 %>% 
+  mutate(CMA_CA_code = stringr::str_sub(geo_code_por, 1, 3)) %>%
+  filter(CMA_CA_code == 938 & geo_level == 2)
+
+
+df_ct_938
+
+```
+
+
+The we use `rbind()` to combine our Prince George and Nanaimo tables:
+
+
+```{r}
+
+df_ct_970938_2 <- rbind(df_ct_970, df_ct_938)
+
+
+```
 
 
 
 
+```{r}
+
+df_ct_970938_housingneed <- df_ct_970938 %>% 
+  filter(household_type_cat == 1) %>% 
+  left_join(df_ct_housingneed, by = c("geo_code_por" = "geo_code_2"))
+
+df_ct_970938_housingneed
+
+```
+
+
+```{r}
+
+ggplot(df_ct_970938_housingneed, aes(x = inc_median_total, y = rate_of_core_housing_need_2016)) +
+  geom_point() +
+  geom_smooth(method = lm, se=FALSE, linetype="dashed", color="darkred")
+
+```
 
 
 
+But let's differentiate the points:
 
 
+```{r}
 
+ggplot(df_ct_970938_housingneed, aes(x = inc_median_total, y = rate_of_core_housing_need_2016, colour = CMA_CA_code)) +
+  geom_point() +
+  geom_smooth(method = lm, se=FALSE, linetype="dashed", color="darkred")
 
+```
 
 
 
