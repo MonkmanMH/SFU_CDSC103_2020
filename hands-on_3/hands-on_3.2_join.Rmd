@@ -1,0 +1,33 @@
+---
+title: "journey to work"
+output: html_notebook
+---
+
+
+```{r setup}
+# tidyverse
+library(tidyverse)
+
+# utilities
+library(here)
+```
+
+
+Census 2016 
+
+
+[Place of work status](https://www12.statcan.gc.ca/census-recensement/2016/ref/dict/pop110-eng.cfm) -- Dictionary, Census of Population, 2016
+
+
+[Data tables, 2016 Census: Journey to Work](https://www12.statcan.gc.ca/census-recensement/2016/dp-pd/dt-td/Lp-eng.cfm?LANG=E&APATH=3&DETAIL=0&DIM=0&FL=A&FREE=0&GC=0&GID=0&GK=0&GRP=1&PID=0&PRID=10&PTYPE=109445&S=0&SHOWALL=0&SUB=0&Temporal=2017&THEME=125&VID=0&VNAMEE=&VNAMEF=)
+
+
+
+CMA
+
+```{r}
+df_X2016325 <- read_csv(here("data", "98-400-X2016325_English_CSV_data.csv"))
+```
+
+
+
