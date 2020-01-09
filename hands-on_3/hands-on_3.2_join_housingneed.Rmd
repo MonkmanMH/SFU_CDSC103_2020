@@ -30,10 +30,10 @@ library(janitor)
 CT
 
 ```{r read_data}
-df_CT_housingneed <- read_csv(here("data", "CT_SR.csv"), 
+df_ct_housingneed <- read_csv(here("data", "CT_SR.csv"), 
                               n_max = 5641)
 
-df_CT_housingneed <- clean_names(df_CT_housingneed)
+df_ct_housingneed <- clean_names(df_ct_housingneed)
 
 ```
 
@@ -46,17 +46,29 @@ Note: use of
 
 ```{r rename_vars}
 
-df_CT_housingneed <- df_CT_housingneed %>% 
+df_ct_housingneed <- df_ct_housingneed %>% 
   rename(geo_code = "geographic_code_code_g_e9_ographique") %>% 
   mutate(geo_code = as.character(geo_code)) 
 
-df_CT_housingneed <- df_CT_housingneed %>% 
+```
+
+
+
+
+
+```{r}
+
+df_ct_housingneed <- df_ct_housingneed %>% 
   mutate(geo_code_2 = case_when(
-    str_length(geo_code) == 5 ~ paste(df_CT_housingneed$geo_code, ".00", sep = ""),
-    str_length(geo_code) == 7 ~ paste(df_CT_housingneed$geo_code, ".00", sep = ""),
+    str_length(geo_code) == 5 ~ paste(geo_code, ".00", sep = ""),
+    str_length(geo_code) == 7 ~ paste(geo_code, ".00", sep = ""),
     TRUE ~ as.character(geo_code)
   ))
 
+
+df_ct_housingneed <- df_ct_housingneed %>% 
+  rename(rate_of_core_housing_need_2016 = rate_of_core_housing_need_2016_1_taux_des_besoins_imp_e9_rieux_en_mati_e8_re_de_logement_2016_1)
+  
 
 
 
@@ -68,15 +80,102 @@ Now we have a list of all the Census Tracts in Canada.
 
 ## Join
 
-To join it to the Prince George census tract table we made earlier, `df_ct_970`:
+To join it to the Prince George income by census tract table we made earlier, `df_ct_970`.
+
+The first step is to filter to just the total category from the income data frame, then to join using the two different geo codes. 
 
 ```{r}
 
-df_ct_970 %>% 
+df_ct_970_housingneed <- df_ct_970 %>% 
   filter(household_type_cat == 1) %>% 
-  left_join(df_CT_housingneed, by = c("geo_code_por" = "geo_code_2"))
+  left_join(df_ct_housingneed, by = c("geo_code_por" = "geo_code_2"))
+
+df_ct_970_housingneed
 
 ```
+
+
+
+## Modelling 
+
+Statistical analysis is built into R's frame and engine, which means that things like correlation and regression analysis are straight-forward.
+
+* see the [_IV Model_ section of _R for Data Science_](https://r4ds.had.co.nz/model-intro.html), particularly [Model Basics](https://r4ds.had.co.nz/model-basics.html)
+
+In our example, we can test the relationship between household income and core housing need...our hypothesis is that as income increases, core housing need will fall.
+
+```{r}
+
+mod_housingneed <- lm(rate_of_core_housing_need_2016 ~ inc_median_total, data = df_ct_970_housingneed)
+
+
+```
+
+
+We can examine our model using `coef()` and (my go-to) `summary()`
+
+```{r}
+
+summary(mod_housingneed)
+
+```
+
+
+### plot the model
+
+R gives us a quick way to visualize the relationship between two variables. With {ggplot2}, we can create a scatterplot using the `geom_point()` geography.
+
+
+```{r}
+
+ggplot(df_ct_970_housingneed, aes(x = inc_median_total, y = rate_of_core_housing_need_2016)) +
+  geom_point()
+
+```
+
+
+
+```{r}
+
+ggplot(df_ct_970_housingneed, aes(x = inc_median_total, y = rate_of_core_housing_need_2016)) +
+  geom_point() +
+  geom_smooth(method = lm)
+
+```
+
+
+
+The default in {ggplot2} is a solid line with the error range shown. But we can change those:
+
+
+```{r}
+
+ggplot(df_ct_970_housingneed, aes(x = inc_median_total, y = rate_of_core_housing_need_2016)) +
+  geom_point() +
+  geom_smooth(method = lm, se=FALSE, linetype="dashed", color="darkred")
+
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
