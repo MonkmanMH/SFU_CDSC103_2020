@@ -28,11 +28,6 @@ library(lubridate)
 ```
 
 
-class: inverse
-
-# OUTCOMES
-
----
 
 # The Data Science Process
 
@@ -41,6 +36,13 @@ class: inverse
 - Wickham and Grolemund, _R4DS_
 
 
+
+---
+
+
+class: inverse
+
+# OUTCOMES
 
 ---
 
@@ -109,6 +111,7 @@ Hadley Wickham & Garrett Grolemund, _R for Data Science_
 
 - in the github repo
 
+https://github.com/MonkmanMH/SFU_CDSC103_2020
 
 
 ---
@@ -185,11 +188,11 @@ Hilary Parker, [“Opinionated Analysis Development”](https://peerj.com/prepri
 
 ## Reproducible workflow
 
->Saves time,
->Produces better science,
->Creates more trusted research,
->Reduces the risk of errors, and
->Encourages collaboration.
+> * Saves time,
+> * Produces better science,
+> * Creates more trusted research,
+> * Reduces the risk of errors, and
+> * Encourages collaboration.
 - David Smith, [Reproducible Data Science with R](https://blog.revolutionanalytics.com/2017/04/reproducible-data-science-with-r.html)
 
 ???
