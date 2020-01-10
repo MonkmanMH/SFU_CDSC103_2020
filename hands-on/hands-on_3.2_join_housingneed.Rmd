@@ -78,9 +78,45 @@ df_ct_housingneed <- df_ct_housingneed %>%
 Now we have a list of all the Census Tracts in Canada.
 
 
-## Join
+## Relational data
 
-To join it to the Prince George income by census tract table we made earlier, `df_ct_970`.
+
+Often, the data you are working with are spread across multiple tables. This allows for efficient database storage (there's an entire discipline dedicated to database theory and practical implementations of those theories.)
+
+This requires you, the data analyst, to join tables, so that the information held in multiple tables can be used to answer the research question at hand.
+
+The tables are _related_ by the fact that they have variables in common. These are known as the "key" variables. In this case, it's the census tract geo code.
+
+There are two types of keys:
+
+1. Primary: identifies a unique observation in the table.
+
+2. Foreign: a unique observation in another table, but not this one.
+
+Sometimes tables don't have a primary key! When that happens, it can be useful to create one -- `mutate()` and `row_number()` is one approach. This is a _surrogate key_.
+
+
+In this case, the census tract value is unique in the housing need table, but not in the income table--in that table, there are multiple household categories.
+
+Having the same key in two tables forms the "relation" -- hence "relational database".
+
+
+The first kind of joins are "mutating joins" -- new variables are added to one data frame from matching observations in another.
+
+The other kind are filtering joins--we won't be dealing with them here. These joins filter observations from one data frame based on whether or not they match an observation in the other table.
+
+There are two sorts: 
+
+* `semi_join(x, y)` keeps all observations in `x` that have a match in `y`.
+
+* `anti_join(x, y)` drops all observations in `x` that have a match in `y`.
+
+
+
+### mutating joins
+
+
+To join the housing need table to the Prince George income by census tract table we made earlier, `df_ct_970`.
 
 The first step is to filter to just the total category from the income data frame, then to join using the two different geo codes. 
 
@@ -94,6 +130,10 @@ df_ct_970_housingneed
 
 ```
 
+
+Now we have a table for the 28 census tracts in the Prince George CA, with the income variables _and_ the housing need variables.
+
+---
 
 
 ## Modelling 
@@ -115,7 +155,7 @@ mod_housingneed <- lm(rate_of_core_housing_need_2016 ~ inc_median_total, data = 
 We can examine our model using `coef()` and (my go-to) `summary()`
 
 ```{r}
-
+# solution
 summary(mod_housingneed)
 
 ```
@@ -127,7 +167,7 @@ R gives us a quick way to visualize the relationship between two variables. With
 
 
 ```{r}
-
+# solution
 ggplot(df_ct_970_housingneed, aes(x = inc_median_total, y = rate_of_core_housing_need_2016)) +
   geom_point()
 
@@ -187,7 +227,9 @@ df_ct_970938
 
 ### Adding rows to an existing table
 
-First, we'll make a table with just Nanaimo:
+Or, we could add rows to an existing table. Since this is something that happens fairly often, let's step through that.
+
+First, we'll make a table with just Nanaimo. This is the same code we used earlier to create a Prince George data frame. Note that the only thing that chagnes is the CMA code in the `filter()` function, and the name of the object the data frame is assigned to.
 
 ```{r}
 
@@ -201,21 +243,24 @@ df_ct_938
 ```
 
 
-The we use `rbind()` to combine our Prince George and Nanaimo tables:
+Now we use `rbind()` to combine our Prince George and Nanaimo tables:
 
 
 ```{r}
-
+# solution
 df_ct_970938_2 <- rbind(df_ct_970, df_ct_938)
 
 
 ```
 
 
+## your turn
+
+Add the housing need data with the `left_join()` function
 
 
 ```{r}
-
+# solution
 df_ct_970938_housingneed <- df_ct_970938 %>% 
   filter(household_type_cat == 1) %>% 
   left_join(df_ct_housingneed, by = c("geo_code_por" = "geo_code_2"))
@@ -224,9 +269,10 @@ df_ct_970938_housingneed
 
 ```
 
+And plot
 
 ```{r}
-
+# solution
 ggplot(df_ct_970938_housingneed, aes(x = inc_median_total, y = rate_of_core_housing_need_2016)) +
   geom_point() +
   geom_smooth(method = lm, se=FALSE, linetype="dashed", color="darkred")

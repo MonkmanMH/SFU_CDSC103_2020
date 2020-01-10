@@ -193,7 +193,7 @@ ggplot(df_CMA_after_tax_10, aes(x = geo_name, y = inc_median_after_tax)) +
 
 ```
 
-
+In this second version, a few changes are introduced:
 
 
 ```{r}
@@ -203,17 +203,33 @@ ggplot(df_CMA_after_tax, aes(x = reorder(geo_name, inc_median_after_tax), y = in
   geom_point(size = 2) +
   geom_segment(aes(xend = geo_name), yend = 0, colour = "grey50") +
   ylim(0, 150000) +
-  theme_light()
+  theme_bw()
   
 
 ```
 
+## Your turn
+
+Using the framework in the previous chunk, create a similar chart using the top 10 CMAs.
+
+```{r}
+
+# solution
+ggplot(df_CMA_after_tax_10, aes(x = reorder(geo_name, inc_median_after_tax), y = inc_median_after_tax)) +
+  coord_flip() +
+  geom_point(size = 2) +
+  geom_segment(aes(xend = geo_name), yend = 0, colour = "grey50") +
+  ylim(0, 150000) +
+  theme_bw()
+  
+
+```
 
 ---
 
 ## Census tract table
 
-In this case, we will start again with the master table and use `filter()` to select the cases that are _not_ the CMAs, that is, where `geo_level` is not equal to 1.
+For this next section, we will start again with the master table and use `filter()` to select the cases that are _not_ the CMAs, that is, where `geo_level` is not equal to 1.
 
 Note that because we've already done all of the variable name cleaning, we don't have to repeat that step.
 
@@ -230,6 +246,12 @@ df_CT
 
 ### Plot: histogram
 
+When you have a large number of values, one approach to visualization is a histogram, showing the distribution of values.
+
+In this next chunk of code, we start with some data wrangling (filtering to get just the total value of all households), and then in our piped code, we have the `ggplot()` function.
+
+* note that the first two transitions use the ` %>% ` symbol, while the ggplot section uses the ` + `.
+
 ```{r}
 
 df_CT %>% 
@@ -241,7 +263,9 @@ df_CT %>%
 
 
 
-### Plot - density
+### your turn: density plot
+
+Another way to represent a distribution is using a density plot. Using the histogram code above, change it to use the `geom_density()` function.
 
 ```{r}
 
@@ -254,22 +278,22 @@ df_CT %>%
 
 
 
-Or overlay two density curves, comparing the median income, by census tract, of familes made up of couples with children to lone-parent families:
+Or overlay two density curves, comparing the median income, by census tract, of familes made up of couples with children to the income of lone-parent families. Since the values for these two variables is a bit of a pain to dig up, I've started things off for you...
 
 ```{r}
 
 df_CT %>% 
   filter(household_type == "With children" | household_type == "One lone-parent census family without other persons in the household") %>% 
-  #
-  ggplot(aes(x = inc_median_after_tax, colour = household_type)) +
-  geom_density() 
-  
+  # your turn! what follows?
+
 
 ```
 
 
 
 ## Filter: all CTs from single CMA
+
+In some circumstances, you may want a more compact data frame--perhaps it's a step towards a published table, or you'll be using this subset of the data later. Let's go through the steps of creating a data frame that contains the Census Tract values for Prince George.
 
 The comprehensive data table has all of the census tracts (CTs) for every CMA and CA in Canada. But the code that identifies the CTs isn't obvious.
 
@@ -296,10 +320,15 @@ df_ct_970
 ```
 
 
-The census tract I live in: 9350104.00
+
+## Your turn
+
+Create a summary table for the census tract you live in. 
+
+(Martin lives in 9350104.00)
 
 ```{r}
-
+# solution
 df_98_400_X2016100 %>% 
   mutate(CMA_CA_code = stringr::str_sub(geo_code_por, 1, 3)) %>%
   filter(geo_code_por == "9350104.00")
@@ -307,8 +336,9 @@ df_98_400_X2016100 %>%
 ```
 
 
-_Need CT to CSD concordance table_
+How many households are in your census tract? And what's the median after tax income?
 
+-30-
 
 
 
