@@ -338,6 +338,27 @@ df_98_400_X2016100 %>%
 
 How many households are in your census tract? And what's the median after tax income?
 
+
+## Export data
+
+The {readr} package allows you to save your newly created data frame as a CSV, TSV, or Excel format.
+
+The syntax is simple:  `write_csv(df, "file_name.csv")`
+
+* for a tab-separated file: `write_tsv()`
+
+* for an Excel file: `write_excel_csv()`
+
+* see [Write a data frame to a delimited file](https://readr.tidyverse.org/reference/write_delim.html)
+
+```{r}
+
+write_csv(df_ct_970, "df_ct_970.csv")
+
+```
+
+
+
 -30-
 
 
