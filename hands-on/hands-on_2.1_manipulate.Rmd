@@ -217,3 +217,63 @@ gapminder %>%
 * Filter using a list with `%in%`
 * Make new variables, with `mutate()`  
 * Connect operations with `%>%`  
+
+
+---
+# Pivot tables with {tidyr}
+
+Often we find ourselves dealing with untidy data or in a structure that isn't particularly human-readable.
+
+For example, if we were to filter the gapminder data to show changes in life expectancy in the Americas, with 15 year intervals.
+
+```{r}
+
+gapminder_Americas <- gapminder %>% 
+  filter(continent == "Americas",
+         year %in% c(1952, 1977, 1992, 2007))
+
+gapminder_Americas
+
+```
+
+It's still a table with 100 rows!
+
+But we can select only the countries, the years, and the life expectancy variable, and then _pivot_ the table structure so that the country is the row, the years are the columns, and the life expectancy values are under the years.
+
+We use the {tidyr} function `pivot_wider()` to achieve this.
+
+First, we create a revised version of the summary table with just the three variables we want in our table:
+
+```{r}
+
+gapminder_Americas <- gapminder_Americas %>% 
+  select(country, year, lifeExp)
+
+gapminder_Americas
+
+```
+
+Then we pivot:
+
+```{r}
+
+gm_pivot <- gapminder_Americas %>% 
+  pivot_wider(names_from = year, values_from = lifeExp)
+
+gm_pivot
+
+```
+
+
+We can return it to the original shape with the function `pivot_longer()`
+
+```{r}
+
+gm_pivot %>% 
+  pivot_longer(cols = -country, names_to = "year", values_to = "life_exp")
+
+```
+
+
+
+-30-
