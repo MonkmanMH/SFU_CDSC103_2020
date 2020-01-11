@@ -220,9 +220,34 @@ gapminder %>%
 
 
 ---
+
+# Tidy data
+
+> “Happy families are all alike; every unhappy family is unhappy in its own way.”<br> –– Leo Tolstoy
+>“Tidy datasets are all alike, but every messy dataset is messy in its own way.”<br> –– Hadley Wickham
+
+
+## Principles of tidy data
+
+### 1. Each variable must have its own column.
+
+### 2. Each observation must have its own row.
+
+### 3. Each value must have its own cell.
+
+
+
+
+From [_R for Data Science_, "Tidy Data"](https://r4ds.had.co.nz/tidy-data.html)
+
+* see also [Hadley Wickham, 2014, “Tidy Data”, _Journal of Statistical Software_ 59 (1): 1–23](https://doi.org/10.18637/jss.v059.i10)
+
+
+---
+
 # Pivot tables with {tidyr}
 
-Often we find ourselves dealing with untidy data or in a structure that isn't particularly human-readable.
+Often we find ourselves dealing with untidy data. Or it might be tidy,  but in a structure that isn't particularly human-readable.
 
 For example, if we were to filter the gapminder data to show changes in life expectancy in the Americas, with 15 year intervals.
 
@@ -271,6 +296,50 @@ We can return it to the original shape with the function `pivot_longer()`
 
 gm_pivot %>% 
   pivot_longer(cols = -country, names_to = "year", values_to = "life_exp")
+
+```
+
+
+### another pivot example
+
+Is this data tidy?
+
+
+```{r echo=FALSE}
+# Elections Canada October 21, 2019 Federal Election Results
+# https://enr.elections.ca/National.aspx?lang=e
+# sourced 2019-11-06
+
+CDN_elec_2019 <- tibble(party = c("Liberal", "Conservative", "Bloc Québécois", "New Democratic", "Green", "Independent"),
+                        seats = c(157, 121, 32, 24, 3, 1),
+                        votes = c(5915950, 6155662, 1376135, 2849214, 1162361, 75836))
+# hahaha! It's easier to make a tidy tibble and untidy it than make a messy one to start with
+
+CDN_elec_2019 <- CDN_elec_2019 %>%
+  pivot_longer(cols = -party, names_to = "category", values_to = "number")
+CDN_elec_2019
+```
+
+
+It violiates Principles #1 & #2
+
+* there are two variables (seats and votes) combined into one column, and
+
+* there are two rows (seats and rows) for each observation (in this case, party)
+
+
+_Sometimes untidy data can be too long!_
+
+
+### your turn
+
+To tidy the table, we need to `pivot_wider()`
+
+```{r}
+
+# solution
+CDN_elec_2019 %>%
+  pivot_wider(names_from = category, values_from = number)
 
 ```
 

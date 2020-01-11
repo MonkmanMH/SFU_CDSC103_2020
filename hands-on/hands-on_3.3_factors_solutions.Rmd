@@ -1,0 +1,425 @@
+---
+title: "Categorical variables"
+subtitle: "factors with {forcats}"
+output: html_notebook
+---
+
+<!-- This file by Martin Monkman is licensed under a Creative Commons Attribution 4.0 International License. -->
+
+```{r setup}
+# tidyverse
+library(tidyverse)
+library(forcats)  # note that {forcats} isn't part of the core tidyverse so has to be loaded explicitly
+# data
+library(gapminder)
+```
+
+
+# A. Factors
+
+## Objectives
+
+* understand how factor type variables differ from character strings
+
+* understand how to manipulate factors
+
+
+# 1. Categorical variables: factors
+
+We love factors. We hate factors. 
+
+Factors make working with categorical variables a breeze: you can sort them or arrange them arbitrarily (think days of the week), 
+
+But there are some traps that you might fall into, if you're not careful.
+
+The package {forcats} is _very_ helpful. 
+
+
+### Your turn 1.1
+
+Base R functions for working with factors
+
+| function | purpose |
+| ---- | ---- |
+| str | display structure of object |
+| class | returns the class of an object |
+| levels | returns the values of the levels |
+| nlevels | return the number of levels |
+
+
+
+
+
+```{r}
+
+str(gapminder$continent)
+
+class(gapminder$continent)
+
+# this is an important one!
+levels(gapminder$continent)
+
+nlevels(gapminder$continent)
+
+
+```
+
+
+### Your turn 1.2
+
+Use the `count()` function in a pipe to get a frequency table of each level in the factors in the `continent` variable
+
+```{r}
+# solution
+gapminder %>%
+  count(continent)
+
+```
+
+***
+
+## 2. Dropping levels
+
+A key thing to remember is that the factor levels exist separate from your data ... even if you filter the data, the factor levels stay the same unless you drop the extras.
+
+In this example, we see that there are 142 countries in `gapminder` -- and if filter it down to 4, there are still 142 levels associated with `country`.
+
+Leaving them in can cause problems, for instance when you try to plot them all.
+
+
+```{r}
+
+nlevels(gapminder$country)
+
+h_countries <- c("Belgium", "India", "Denmark", "Albania")  # see what I did there?
+
+h_gap <- gapminder %>%
+  filter(country %in% h_countries)
+
+nlevels(h_gap$country)
+
+```
+
+
+### Your turn 2.1
+
+The function we need here is `droplevels()`
+
+
+```{r}
+
+h_gap <- gapminder %>%
+  filter(country %in% h_countries) %>% 
+  droplevels()
+
+levels(h_gap$country)
+
+```
+
+***
+
+## 3. Changing the order of the factors
+
+As you can see with our country names above, the default arrangement is alphabetical. This is fine in some applications, but as we will see when we plot the data, we might want to sort them by another variable.
+
+
+
+### Your turn 3.1
+
+We might want to sort levels in an arbitrary way. 
+
+For example, our short country list would be more entertaining if it spelled out "BIDA".
+
+Here's the way the levels are arranged:
+
+```{r}
+
+h_gap$country %>% 
+  levels()
+
+```
+
+We can use `fct_relevel()` to change some or all of the levels.
+
+```{r}
+
+h_gap$country %>%
+  fct_relevel("Belgium", "India", "Denmark", "Albania") %>% 
+  levels()
+
+```
+
+
+
+
+What if we want to sort by the number of countries in each continent, that is, the number of times each factor occurs?
+
+`fct_infreq()` is what we need, or `fct_infreq() %>% fct_rev()` for backwards.
+
+### Your turn 3.2
+
+Give them a try on `continent` in gapminder.
+
+```{r}
+# solutions
+gapminder$continent %>%
+  fct_infreq() %>%
+  levels()
+
+gapminder$continent %>%
+  fct_infreq() %>%
+  fct_rev() %>%
+  levels()
+
+
+```
+
+In a pipe where we are using the entire data frame, it would look like this:
+
+```{r}
+
+gmind <- gapminder %>%
+  # sort the factors
+  mutate(continent = continent %>% 
+           fct_infreq() %>% 
+           fct_rev()) 
+
+levels(gmind$continent)
+
+```
+
+
+You can also sort by another variable in the data frame. In this example, the countries are sorted by minimum life expectancy.
+
+You can find other ways to sort in [STAT545, "Reorder factors"](https://stat545.com/factors-boss.html#reorder-factors)
+
+```{r}
+
+fct_reorder(gapminder$country, gapminder$lifeExp, min) %>%
+  levels() %>%
+  head()
+
+
+```
+
+
+
+### Your turn 3.3
+
+Recoding levels is similar to the renaming that's possible in `dplyr::select()`
+
+```{r}
+i_gap <- gapminder %>% 
+  filter(country %in% c("United States", "Sweden", "Australia")) %>% 
+  droplevels()
+
+i_gap$country %>% 
+  levels()
+
+i_gap$country %>%
+  fct_recode("USA" = "United States", "Oz" = "Australia") %>% 
+  levels()
+
+```
+
+
+---
+
+
+
+
+# B. Plotting categorical variables
+
+## Objectives
+
+* Produce bar charts and other categorical plots using {ggplot2}.
+
+* Set universal plot settings.
+ 
+* Extend learning of {ggplot2} functions
+
+
+
+Create a dataframe object with the name "gapminder_2007" by filtering the gapminder data.
+
+```{r}
+
+gapminder_2007 <- filter(gapminder, year == 2007)
+
+```
+
+
+
+## 1. Bar plot: countries in each continent
+
+
+Bar plots are often used to visualize the distribution of a discrete variable. In this case, we will show how many countries there are in each continent.
+
+* the **geom** is `geom_bar`
+
+* map the `x` variable to `continent`
+
+* there is no `y` variable! {ggplot} will count the number of observations in each category
+
+### Your Turn 1.1
+
+
+```{r}
+# solution
+ggplot(gapminder_2007, aes(x = continent)) +
+  geom_bar()
+```
+
+### Your Turn 1.2
+
+Note that `colour` (or `color`) won't work on a bar! That's for points and lines.
+
+For something that occupies a block of space--such as a bar or pie chart--you need to use `fill`.
+
+Add the `fill` attribute to `continent` to the code you wrote above. (Yes, you'll be specifing continent twice!)
+
+```{r}
+# solution
+ggplot(gapminder_2007, aes(x = continent, fill = `continent`)) +
+  geom_bar()
+
+
+```
+
+
+This is the default palette. It might be a bit too vibrant for your eyes...don't worry, we will learn to fix that later.
+
+
+
+
+
+### Your turn 1.3
+
+Another {ggplot2} feature is that every plot is an object. If you want to save a basic version of your plot and continue to tinker with it, you can assign that basic version to an object name, and just add to it.
+
+It would look something like:
+
+`mybar <- ggplot() + geom_()`
+
+Followed by
+
+`mybar + `
+
+
+
+```{r}
+# solution
+
+
+mybar <- ggplot(gapminder_2007, aes(x = continent, fill = `continent`)) +
+  geom_bar()
+
+
+```
+
+
+
+### Your turn 1.4 
+
+
+
+It's possible to turn this on its side, so that the country labels are on the left, and the bars run left-to-right instead of up-and-down.
+
+To do this, add the `coord_flip()` function to the chart object you assigned above (you might have called it `mybar`).
+
+
+
+
+```{r}
+# solution
+
+mybar + coord_flip()
+
+```
+
+
+## 2. Sorting factors in a plot
+
+To sort the factors in a plot, we first mutate the variable that contains the factor variable that will plot.
+
+In this example, we use the same code that we saw in hands-on 3.3, Your Turn 3.2. Other sort functions (such as `fct_relevel`) could also be used. 
+
+```{r}
+gapminder %>%
+  # sort the factors
+  mutate(continent = continent %>% 
+           fct_infreq() %>% 
+           fct_rev()) %>% 
+  # then plot
+  ggplot(aes(x = continent)) +
+    geom_bar() +
+  coord_flip()
+
+```
+
+
+### Your turn 2.1
+
+
+In this example, we will plot the four countries in our BIDA group by life expectancy.
+
+```{r}
+h_countries <- c("Belgium", "India", "Denmark", "Albania")  # see what I did there?
+
+h_gap <- gapminder %>%
+  filter(country %in% h_countries) %>%
+  mutate(country = country %>% 
+  fct_relevel("Belgium", "India", "Denmark", "Albania"))  
+
+h_gap %>%
+  filter(year == 2007) %>%
+  ggplot(mapping = aes(x = country, y = lifeExp)) +
+  geom_point(size = 6)
+
+```
+
+
+Now it's your turn: sort by life expectancy:
+
+```{r}
+
+h_gap %>%
+  filter(year == 2007) %>%
+  mutate(country = country %>% 
+           fct_reorder(lifeExp) %>% 
+           fct_rev()) %>% 
+  # now plot
+  ggplot(mapping = aes(x = country, y = lifeExp)) +
+  geom_point(size = 6)
+
+
+```
+
+
+
+
+
+
+## REFERENCE
+
+Some of these examples are lifted directly from http://euclid.psych.yorku.ca/www/psy6135/tutorials/gapminder.html
+
+The lesson also draws heavily from
+
+
+* The [{forcats} reference site](https://forcats.tidyverse.org/)
+
+* ["Factors" in _R for Data Science_](https://r4ds.had.co.nz/factors.html) by Hadley Wickham & Garrett Grolemund
+
+* ["Be the boss of your factors" at STAT545](https://stat545.com/factors-boss.html)
+
+
+
+See also
+
+* https://www.r-graph-gallery.com/267-reorder-a-variable-in-ggplot2.html
+
+
+
+
+
